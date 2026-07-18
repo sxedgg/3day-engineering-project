@@ -16,6 +16,8 @@ def create_app():
 
     from backend.routes.auth import auth_bp
     from backend.routes.task import task_bp
+    from backend.routes.userinfo import user_bp
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(task_bp, url_prefix="/api/task")
+    app.register_blueprint(user_bp, url_prefix="/api/user")
     return app

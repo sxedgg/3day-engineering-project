@@ -12,6 +12,8 @@ def register():
     data = request.get_json()
     username = data.get("username")
     password = data.get("password")
+    if not username or not password:
+        return jsonify({"msg":"用户名密码不能为空","code":400})
     if User.query.filter_by(username=username).first():
         return jsonify({"msg":"用户名已存在","code":400})
     user = User(username=username)
@@ -30,4 +32,4 @@ def login():
         "uid":user.id,
         "exp":datetime.datetime.utcnow()+datetime.timedelta(hours=24)
     }, Config.SECRET_KEY, algorithm="HS256")
-    return jsonify({"msg":"登录成功","token":token,"code":200})
+    return jsonify({"msg":"登录成功","token":token,"uid":user.id,"code":200})

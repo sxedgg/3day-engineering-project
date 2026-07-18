@@ -15,7 +15,9 @@ def task_list(uid):
 @task_bp.route("/add", methods=["POST"])
 def task_add():
     d = request.get_json()
-    t = Task(title=d["title"], content=d["content"], user_id=d["uid"])
+    if not d.get("title") or not d.get("uid"):
+        return jsonify({"msg":"任务标题、用户ID不能为空","code":400})
+    t = Task(title=d["title"], content=d.get("content",""), user_id=d["uid"])
     db.session.add(t)
     db.session.commit()
     return jsonify({"msg":"新增任务成功","code":200})
