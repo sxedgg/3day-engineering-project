@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Login() {
   const [form, setForm] = useState({ username: "", password: "" });
@@ -12,6 +13,7 @@ export default function Login() {
     });
     const data = await res.json();
     alert(data.msg);
+    if(data.code === 200) localStorage.setItem("uid", data.uid);
   };
 
   return (
@@ -32,10 +34,14 @@ export default function Login() {
       />
       <button
         onClick={handleLogin}
-        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 mb-4"
       >
         登录
       </button>
+      <div className="text-center">
+        <Link href="/task" className="text-blue-500 mr-4">任务列表</Link>
+        <Link href="/user" className="text-blue-500">个人中心</Link>
+      </div>
     </div>
   );
 }
